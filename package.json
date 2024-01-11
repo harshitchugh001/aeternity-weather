@@ -1,0 +1,17 @@
+{
+  "name": "myoracle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aeternity/aepp-sdk": "^13.2.1",
+    "bignumber.js": "^9.1.2",
+    "dotenv": "^16.3.1",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
