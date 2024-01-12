@@ -17,7 +17,7 @@
   // fetchresponse(51.52,-0.11)
   
 
-  function fetchresponse(lat, lon) {
+  function fetchresponse1(lat, lon) {
     console.log("hello");
     return fetch(
       `https://api.weatherapi.com/v1/current.json?key=812477266caa4b88a1334245241201&q=${lat},${lon}`
@@ -29,6 +29,10 @@
       return temperature;
     });
   }
+
+  module.exports = {
+    fetchresponse1,
+  };
   
  
   // fetchresponse(51.52, -0.11)

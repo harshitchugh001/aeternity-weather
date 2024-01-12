@@ -1,7 +1,7 @@
 const Aeternity = require("./aeternity");
 const { decode } = require("@aeternity/aepp-sdk");
 const BigNumber = require("bignumber.js");
-const { fetchresponse } = require("./fetchresponse");
+const { fetchresponse1 } = require("./fetchresponse");
 
 
 module.exports = class WeatherFeedOracle {
@@ -96,9 +96,10 @@ module.exports = class WeatherFeedOracle {
 
   respond = async (lat, lon) => {
     const height = await this.aeternity.client.getHeight();
+    console.log(lat,lon);
 
-    if (!query || query.response !== "or_Xfbg4g==") return;
-    if (height >= query.ttl) {
+    // if (!query || query.response !== "or_Xfbg4g==") return;
+    if (height >= this.oracle.ttl) {
       console.log("not responding to expired ttl", query.id);
       return;
     }
@@ -124,7 +125,7 @@ module.exports = class WeatherFeedOracle {
     //   query.ttl,
     // );
 
-    const response = await fetchresponse(51.52, -0.11).catch(
+    const response = await fetchresponse1(lat, lon).catch(
       console.error,
     );
 
