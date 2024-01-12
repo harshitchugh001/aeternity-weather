@@ -5,8 +5,8 @@ const {
     AeSdk,
     toAe,
 } = require("@aeternity/aepp-sdk");
-const fs = require("fs").promises;
-const path = require("path");
+// const fs = require("fs").promises;
+// const path = require("path");
 const qrcode = require("qrcode-terminal");
 const BigNumber = require("bignumber.js");
 require('dotenv').config();
