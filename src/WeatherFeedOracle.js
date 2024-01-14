@@ -94,53 +94,42 @@ module.exports = class WeatherFeedOracle {
     console.debug("oracle query polling started");
   };
 
-  respond = async (lat, lon) => {
+  respond = async (query) => {
     const height = await this.aeternity.client.getHeight();
-    console.log(lat,lon);
 
-    // if (!query || query.response !== "or_Xfbg4g==") return;
-    if (height >= this.oracle.ttl) {
+    console.log("lat",query);
+
+    if (!query || query.response !== "or_Xfbg4g==") return;
+    if (height >= query.ttl) {
       console.log("not responding to expired ttl", query.id);
       return;
     }
 
-    const queryString = `lat:${lat},lon:${lon}`;
+    const queryString = String(decode(query.query));
     console.log(
       "oracle got query",
       queryString,
+      query.id,
       "height:",
       height,
       "ttl:",
-      this.oracle.ttl
+      query.ttl
     );
 
-    // const queryString = String(decode(query.query));
-    // console.log(
-    //   "oracle got query",
-    //   queryString,
-    //   query.id,
-    //   "height:",
-    //   height,
-    //   "ttl:",
-    //   query.ttl,
-    // );
-
-    const response = await fetchresponse1(lat, lon).catch(
-      console.error,
-    );
+    
+    const response = await fetchresponse1(queryString)
 
     if (response) {
       console.log(response);
-      // const responseString = new BigNumber(response)
-      //   .toNumber()
-      //   .toString();
+      const responseString = new BigNumber(response)
+        .toString();
 
-      // console.log("oracle will respond:", response, `raw: (${responseString})`);
-      // await this.oracle
-      //   .respondToQuery(query.id, responseString, {
-      //     responseTtl: query.responseTtl,
-      //   })
-      //   .catch(console.error);
+      console.log("oracle will respond:", response, `raw: (${responseString})`);
+      await this.oracle
+        .respondToQuery(query.id, responseString, {
+          responseTtl: query.responseTtl,
+        })
+        .catch(console.error);
     } else {
       console.log("oracle will not respond, no result found in page");
     }

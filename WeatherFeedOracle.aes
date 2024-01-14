@@ -1,0 +1,31 @@
+
+
+@compiler >= 7
+
+include "String.aes"
+include "Frac.aes"
+include "Option.aes"
+
+contract WeatherFeedoracle =
+
+  type o = oracle(string, string)
+  type oq = oracle_query(string, string)
+
+  type state = o
+  entrypoint init(oracle : o) = oracle
+
+  entrypoint queryFee() =
+    Oracle.query_fee(state)
+
+  payable stateful entrypoint weatherfetchbycity(city : string) =
+    let fee = queryFee()
+    require(Call.value == fee, String.concat("AMOUNT_NOT_EQUAL_FEE_", Int.to_str(fee)))
+    
+    require(Oracle.check(state), "ORACLE_CHECK_FAILED")
+    Oracle.query(state, city, fee, RelativeTTL(10), RelativeTTL(10))
+
+  
+  entrypoint gettempincelsius(query : oq) : option(string) =
+    Oracle.get_answer(state, query)
+
+

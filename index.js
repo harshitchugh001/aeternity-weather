@@ -8,7 +8,7 @@ const main = async () => {
   await weatherfeedoracle.init();
   await weatherfeedoracle.register();
   await weatherfeedoracle.startPolling();
-  // await weatherfeedoracle.respond("21","56");
+  
 };
 
 void main();
